@@ -1,0 +1,52 @@
+digraph neumann_rejection_sampling {
+    // Настройки графа
+    rankdir=TB;
+    node [fontname="Arial"];
+    edge [color=navy];
+
+    // Узлы с указанными формами
+    A [label="Начало", shape=oval, style=filled, fillcolor=lightgreen];
+    B [label="Инициализация:\n y = 0.0, d = 0.01\n func_max = f(0) = 0.798\n max_y = 0.0", shape=parallelogram, style=filled, fillcolor=lightblue];
+    C [label="y <= 10?", shape=diamond, style=filled, fillcolor=lightyellow];
+    D [label="f(y) = 0.798 * exp(-y²/2)", shape=parallelogram, style=filled, fillcolor=lightblue];
+    E [label="f(y) > func_max?", shape=diamond, style=filled, fillcolor=lightyellow];
+    F [label="func_max = f(y)\n max_y = y", shape=parallelogram, style=filled, fillcolor=lightblue];
+    G [label="y = y + d", shape=parallelogram, style=filled, fillcolor=lightblue];
+    H [label="y = max_y\n b = max_y", shape=parallelogram, style=filled, fillcolor=lightblue];
+    I [label="f(b) > 0.01 * func_max?", shape=diamond, style=filled, fillcolor=lightyellow];
+    J [label="b = b + d", shape=parallelogram, style=filled, fillcolor=lightblue];
+    K [label="a = 0.0\n count = 0\n max_count = 100", shape=parallelogram, style=filled, fillcolor=lightblue];
+    L [label="count < max_count?", shape=diamond, style=filled, fillcolor=lightyellow];
+    M [label="Генерация e1, e2\n из U[0,1]", shape=parallelogram, style=filled, fillcolor=lightblue];
+    N [label="y = a + (b - a) * e1", shape=parallelogram, style=filled, fillcolor=lightblue];
+    O [label="f(y) = 0.798 * exp(-y²/2)", shape=parallelogram, style=filled, fillcolor=lightblue];
+    P [label="f(y) >= func_max * e2?", shape=diamond, style=filled, fillcolor=lightyellow];
+    Q [label="Сохранить y", shape=parallelogram, style=filled, fillcolor=lightblue];
+    R [label="count = count + 1", shape=parallelogram, style=filled, fillcolor=lightblue];
+    S [label="Конец", shape=oval, style=filled, fillcolor=lightgreen];
+
+    // Связи между узлами
+    A -> B;
+    B -> C;
+    C -> D [label="Да"];
+    C -> H [label="Нет"];
+    D -> E;
+    E -> F [label="Да"];
+    E -> G [label="Нет"];
+    F -> G;
+    G -> C;
+    H -> I;
+    I -> J [label="Да"];
+    I -> K [label="Нет"];
+    J -> I;
+    K -> L;
+    L -> M [label="Да"];
+    L -> S [label="Нет"];
+    M -> N;
+    N -> O;
+    O -> P;
+    P -> Q [label="Да"];
+    P -> M [label="Нет"];
+    Q -> R;
+    R -> L;
+}
